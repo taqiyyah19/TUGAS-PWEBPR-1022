@@ -67,5 +67,33 @@
       </div>
     </div>
   </div>
+  
+  <script>
+    function addData() {
+
+      const newData = {
+        nama: 'taqiyyah ardelia pratiwi',
+        nim: '222410101022',
+        programStudi: 'sisem informasi',
+        tahunAngkatan: '2022',
+        alamat: 'jalan tidar'
+      };
+
+      const tbody = document.getElementById('data-body');
+
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${newData.nama}</td>
+        <td>${newData.nim}</td>
+        <td>${newData.programStudi}</td>
+        <td>${newData.tahunAngkatan}</td>
+        <td>${newData.alamat}</td>
+      `;
+
+      tbody.appendChild(newRow);
+    }
+
+    document.getElementById('add-data-btn').addEventListener('click', addData);
+  </script>
 </body>
 </html>
