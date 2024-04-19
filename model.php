@@ -1,48 +1,42 @@
 <?php
+class tbmahasiswa 
+{
+    private $host = "localhost";
+    private $username = "root";
+    private $password = "";
+    private $database = "dbmahasiswa";
+    private $conn;
 
-include 'koneksi.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nama = $_POST['nama'];
-    $nim = $_POST['nim'];
-    $prodi = $_POST['prodi'];
-    $tahun_angkatan = $_POST['tahun_angkatan'];
-    $alamat = $_POST['alamat'];
-
-    $sql = "INSERT INTO nama_tabel (nama, nim, prodi, tahun_angkatan, alamat) VALUES ('$nama', '$nim', '$prodi', '$tahun_angkatan', '$alamat')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Data berhasil ditambahkan";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    public function __construct() {
+        $this->conn = mysqli_connect($this->host, $this->username, $this->password, $this->database);
+        if (!$this->conn) {
+            die("Koneksi gagal: " . mysqli_connect_error());
+        }
     }
 
+    // Fungsi untuk menampilkan semua kontak
+    public function selecttbmahasiswa() {
+        $sql = "SELECT * FROM dbmahasiswa";
+        $result = mysqli_query($this->conn, $sql);
+        return $result;
+    }
 
-    $conn->close();
+    public function gettbmahasiswasByNim($Nim) {
+        $sql = "SELECT * FROM dbmahasiswa WHERE Nim = ".$Nim;
+        $result = mysqli_query($this->conn, $sql);
+        return $result;
+    }
+
+    public function inserttbmahasiswa($Nama, $ProgramStudi, $TahunAngkatan, $Alamat) {
+        $sql = "INSERT INTO dbmahasiswa (Nama, ProgramStudi, TahunAngkatan, Alamat) VALUES ('".$Nama."', '".$ProgramStudi."', '".$TahunAngkatan."', '".$Alamat."')";
+        $result = mysqli_query($this->conn, $sql);
+        return $result;
+    }
+    
+    public function updatetbmahasiswa($Nama, $ProgramStudi, $TahunAngkatan, $Alamat) {
+        $sql = "UPDATE dbmahasiswa SET ProgramStudi = '".$ProgramStudi."', TahunAngkatan = '".$TahunAngkatan."', Alamat = '".$Alamat."' WHERE Nama = '".$Nama."'";
+        $result = mysqli_query($this->conn, $sql);
+        return $result;
+    }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insert Data</title>
-</head>
-<body>
-    <h2>Insert Data</h2>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <label for="nama">Nama:</label><br>
-        <input type="text" id="nama" name="nama"><br>
-        <label for="nim">NIM:</label><br>
-        <input type="text" id="nim" name="nim"><br>
-        <label for="prodi">Program Studi:</label><br>
-        <input type="text" id="prodi" name="prodi"><br>
-        <label for="tahun_angkatan">Tahun Angkatan:</label><br>
-        <input type="text" id="tahun_angkatan" name="tahun_angkatan"><br>
-        <label for="alamat">Alamat:</label><br>
-        <textarea id="alamat" name="alamat"></textarea><br><br>
-        <input type="submit" value="Submit">
-    </form>
-</body>
-</html>
