@@ -1,14 +1,16 @@
 
 <?php
-include_once 'models/user.php';
+include_once 'model/user.php';
+include_once 'config/main.php';
+include_once 'config/static.php';
 
 class AuthController {
     static function login() {
-        view('auth/auth_layout', ['url' => 'login']);
+        view('login');
     }
 
     static function register() {
-        view('auth/auth_layout', ['url' => 'register']);
+        view('register');
     }
 
     static function sessionLogin() {
